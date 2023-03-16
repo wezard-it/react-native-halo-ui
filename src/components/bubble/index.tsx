@@ -4,13 +4,14 @@ import type { Types } from '@wezard/halo-core'
 import { useHaloTheme } from '../../core/provider'
 import moment from 'moment'
 
-type HBubbleProps = Partial<{
+type HBubbleProps = {
   chatUserId: string
   creator: Types.UserDetails
   message: Types.MessageType.Any
-}>
+  renderBubble?: (message: Types.MessageType.Any, chatUserId: string, creator: Types.UserDetails) => React.ReactNode
+}
 
-export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator }) => {
+export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator, renderBubble }) => {
   const theme = useHaloTheme()
 
   const creatorIsChatUser = React.useMemo(() => {
@@ -54,7 +55,7 @@ export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator }
     [creatorIsChatUser, theme.bubble.base.text, theme.bubble.left.text, theme.bubble.right.text],
   )
 
-  const renderAvatar = React.useCallback(() => {
+  const _renderAvatar = React.useCallback(() => {
     return creator!.image ? (
       <Image source={{ uri: creator!.image }} style={styles.avatar} />
     ) : (
@@ -67,24 +68,39 @@ export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator }
     )
   }, [creator])
 
-  const renderBubble = React.useCallback(() => {
+  const _renderBubble = React.useCallback(() => {
     return (
       <View style={bubbleStyle}>
-        <Text style={labelTextStyle}>
-          {creator?.firstName} {creator?.lastName}
-        </Text>
+        {!creatorIsChatUser ? (
+          <Text style={labelTextStyle}>
+            {creator?.firstName} {creator?.lastName}
+          </Text>
+        ) : null}
         <Text style={messageTextStyle}>{message!.text}</Text>
         <Text style={timeTextStyle}>{moment(message!.createdAt).format('HH:mm')}</Text>
       </View>
     )
-  }, [bubbleStyle, creator?.firstName, creator?.lastName, labelTextStyle, message, messageTextStyle, timeTextStyle])
+  }, [
+    bubbleStyle,
+    creator?.firstName,
+    creator?.lastName,
+    creatorIsChatUser,
+    labelTextStyle,
+    message,
+    messageTextStyle,
+    timeTextStyle,
+  ])
 
   return (
     <View style={[styles.wrapper, creatorIsChatUser ? styles.alignRight : styles.alignLeft]}>
-      <>
-        {!creatorIsChatUser ? renderAvatar() : null}
-        {renderBubble()}
-      </>
+      {renderBubble ? (
+        renderBubble(message, chatUserId, creator)
+      ) : (
+        <>
+          {!creatorIsChatUser ? _renderAvatar() : null}
+          {_renderBubble()}
+        </>
+      )}
     </View>
   )
 }

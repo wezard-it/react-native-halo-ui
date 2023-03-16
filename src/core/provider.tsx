@@ -1,9 +1,8 @@
 import * as React from 'react'
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import type { PartialDeep } from 'type-fest'
-import _ from 'lodash'
 
-type HaloTheme = {
+export type HaloTheme = {
   colors: {
     primary: string
     secondary: string
@@ -83,7 +82,7 @@ interface HaloProviderProps {
 }
 
 export const HaloProvider: React.FC<HaloProviderProps> = ({ children, theme }) => {
-  const mergedTheme: HaloTheme = _.merge(defaultLightTheme, theme)
+  const mergedTheme = { ...defaultLightTheme, ...theme } as HaloTheme
 
   return <HaloContext.Provider value={{ theme: mergedTheme }}>{children}</HaloContext.Provider>
 }
