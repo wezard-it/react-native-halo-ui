@@ -1,31 +1,14 @@
 # @wezard/react-native-halo-ui
 
-React Native Halo Chat UI Kit
+<div align="center">
 
-## Installation
+[![javascript][standard-wezard-badge]][standard-wezard]
+[![NPM version][npmjs-badge]][npmjs-com]
 
-```sh
-npm install @wezard/react-native-halo-ui
-```
+</div>
 
-## Usage
 
-```js
-import { multiply } from '@wezard/react-native-halo-ui';
-
-// ...
-
-const result = await multiply(3, 7);
-```
-
-## Contributing
-
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
-
-## License
-
-MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+[npmjs-badge]: https://img.shields.io/npm/v/@wezard/react-native-halo-ui.svg?logo=npm
+[npmjs-com]: https://www.npmjs.com/package/@wezard/react-native-halo-ui
+[standard-wezard-badge]: https://img.shields.io/badge/sdk-wezard-F26D50.svg
+[standard-wezard]: https://github.com/wezard-it/react-native-halo-ui
