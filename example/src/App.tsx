@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import { HaloProvider, HBubble } from '@wezard/react-native-halo-ui'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import type { Types } from '@wezard/halo-core'
+import { NavigationProvider } from './providers/Navigation'
 
 const user1: Types.UserDetails = {
   id: 'user1',
@@ -24,7 +25,8 @@ const user2: Types.UserDetails = {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <HaloProvider>
+      <NavigationProvider />
+      {/* <HaloProvider>
         <View style={styles.container}>
           <ScrollView>
             <HBubble
@@ -63,7 +65,7 @@ export default function App() {
             />
           </ScrollView>
         </View>
-      </HaloProvider>
+      </HaloProvider> */}
     </SafeAreaProvider>
   )
 }
