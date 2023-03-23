@@ -11,8 +11,6 @@ interface HaloProviderProps {
 }
 
 export const HaloProvider: React.FC<HaloProviderProps> = ({ children, theme }) => {
-  // const mergedTheme = { ...defaultLightTheme, ...theme } as HaloTheme
-
   const mergedTheme = deepMerge<HaloTheme>(theme as HaloTheme, defaultLightTheme) as HaloTheme
 
   return <HaloContext.Provider value={{ theme: mergedTheme }}>{children}</HaloContext.Provider>

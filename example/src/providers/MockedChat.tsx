@@ -37,7 +37,7 @@ export const useMockedChat = (): {
     setMessages((curr) => [
       ...curr,
       {
-        id: `message${curr.length}`,
+        id: `message${curr.length + 1}`,
         contentType: 'TEXT',
         createdAt: now,
         updatedAt: now,

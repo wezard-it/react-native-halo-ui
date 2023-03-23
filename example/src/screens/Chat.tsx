@@ -1,13 +1,15 @@
-import { HMessageList } from '@wezard/react-native-halo-ui'
+import { HChatInput, HMessageList } from '@wezard/react-native-halo-ui'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useMockedChat } from '../providers/MockedChat'
 
 export const ChatScreen: React.FC = () => {
-  const { chatUser, users, messages } = useMockedChat()
+  const { chatUser, users, messages, sendMessage } = useMockedChat()
+
   return (
     <View style={styles.container}>
       <HMessageList messages={messages} chatUserId={chatUser.id} users={users} />
+      <HChatInput onSend={sendMessage} />
     </View>
   )
 }
@@ -15,8 +17,6 @@ export const ChatScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 0,
   },
   box: {
     width: 60,

@@ -4,12 +4,20 @@ export const theme1: Partial<HaloTheme> = {
   colors: {
     primary: '#208B3A',
     secondary: '#92E6A7',
+    terziary: '#B7EFC5',
     surfaces: {
       darkest: '#20A6A6',
       dark: '#20BFBF',
       regular: '#20D6D6',
       light: '#20F2F2',
       lightest: '#20FFFF',
+    },
+    text: {
+      darkest: '#292929',
+      dark: '#404040',
+      regular: '#666666',
+      light: '#999999',
+      lightest: '#CCCCCC',
     },
   },
   bubble: {
@@ -52,6 +60,15 @@ export const theme1: Partial<HaloTheme> = {
     container: {
       backgroundColor: '#20D6D6',
     },
+    text: {},
+  },
+  input: {
+    container: {
+      backgroundColor: '#208B3A',
+      paddingTop: 12,
+      padding: 24,
+    },
+    back: {},
     text: {},
   },
 }

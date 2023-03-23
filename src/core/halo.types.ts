@@ -11,7 +11,9 @@ export type HaloTheme = {
   colors: {
     primary: string
     secondary: string
+    terziary: string
     surfaces: HaloColorScheme
+    text: HaloColorScheme
   }
   bubble: {
     base: {
@@ -36,5 +38,10 @@ export type HaloTheme = {
   badge: {
     text: StyleProp<TextStyle>
     container: StyleProp<ViewStyle>
+  }
+  input: {
+    container: StyleProp<ViewStyle>
+    back: StyleProp<ViewStyle>
+    text: StyleProp<TextStyle>
   }
 }
