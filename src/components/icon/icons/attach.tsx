@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Svg, { Path, G } from 'react-native-svg'
 
-const IconSend = ({ fill, ...props }: CustomIconProps): JSX.Element => {
+const IconAttach = ({ fill, ...props }: CustomIconProps): JSX.Element => {
   return (
     <Svg {...props}>
       <G>
@@ -14,4 +14,4 @@ const IconSend = ({ fill, ...props }: CustomIconProps): JSX.Element => {
   )
 }
 
-export default IconSend
+export default IconAttach

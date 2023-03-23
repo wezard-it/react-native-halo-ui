@@ -2,9 +2,13 @@ import type { HaloTheme } from '@wezard/react-native-halo-ui'
 
 export const theme1: Partial<HaloTheme> = {
   colors: {
-    primary: '#208B3A',
-    secondary: '#92E6A7',
-    terziary: '#B7EFC5',
+    primary: {
+      darkest: '#098227',
+      dark: '#208B3A',
+      regular: '#92E6A7',
+      light: '#B7EFC5',
+      lightest: '#76B885',
+    },
     surfaces: {
       darkest: '#20A6A6',
       dark: '#20BFBF',

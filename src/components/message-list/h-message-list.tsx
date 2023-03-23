@@ -5,6 +5,7 @@ import { SectionList, View } from 'react-native'
 import { HBubble } from '../bubble/h-bubble'
 import { StyleSheet } from 'react-native'
 import { HBadge } from '../badge/h-badge'
+import { HMessageListBackground } from './h-message-list-background'
 
 interface HMessageListProps {
   messages: Types.MessageType.Any[]
@@ -61,6 +62,7 @@ export const HMessageList: React.FC<HMessageListProps> = ({
 
   return (
     <View style={styles.container}>
+      <HMessageListBackground />
       <SectionList
         sections={sections}
         renderItem={_renderBubble}
@@ -76,7 +78,7 @@ export const HMessageList: React.FC<HMessageListProps> = ({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   list: {
-    paddingTop: 24,
+    paddingBottom: 24,
     paddingHorizontal: 24,
   },
 })

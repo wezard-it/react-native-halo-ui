@@ -16,8 +16,8 @@ export const HIconButton: React.FC<HIconButtonProps> = ({ iconName, onPress, sty
 
   const backgroundColor = React.useMemo(() => {
     if (disabled) return theme.colors.surfaces.dark
-    return pressed ? theme.colors.terziary : theme.colors.secondary
-  }, [disabled, pressed, theme.colors.secondary, theme.colors.surfaces.dark, theme.colors.terziary])
+    return pressed ? theme.colors.primary.light : theme.colors.primary.regular
+  }, [disabled, pressed, theme.colors.primary.light, theme.colors.primary.regular, theme.colors.surfaces.dark])
 
   return (
     <Pressable

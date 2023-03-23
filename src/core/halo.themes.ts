@@ -2,9 +2,13 @@ import type { HaloTheme } from './halo.types'
 
 export const defaultLightTheme: HaloTheme = {
   colors: {
-    primary: '#783EF7',
-    secondary: '#AB8AF3',
-    terziary: '#C5ABFF',
+    primary: {
+      darkest: '#541DCC',
+      dark: '#783EF7',
+      regular: '#AB8AF3',
+      light: '#C5ABFF',
+      lightest: '#D3C0FA',
+    },
     surfaces: {
       darkest: '#A6A6A6',
       dark: '#BFBFBF',

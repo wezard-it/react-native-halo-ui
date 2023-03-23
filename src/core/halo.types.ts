@@ -9,9 +9,7 @@ export type HaloColorScheme = {
 }
 export type HaloTheme = {
   colors: {
-    primary: string
-    secondary: string
-    terziary: string
+    primary: HaloColorScheme
     surfaces: HaloColorScheme
     text: HaloColorScheme
   }
