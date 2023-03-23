@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import type { Types } from '@wezard/halo-core'
-import { useHaloTheme } from '../../core/provider'
+import { useHaloTheme } from '../../core/halo-provider'
 import moment from 'moment'
 
 type HBubbleProps = {

@@ -1,9 +1,16 @@
-import type { HaloTheme } from 'src/core/provider'
+import type { HaloTheme } from '@wezard/react-native-halo-ui'
 
-export const theme1: HaloTheme = {
+export const theme1: Partial<HaloTheme> = {
   colors: {
     primary: '#208B3A',
     secondary: '#92E6A7',
+    surfaces: {
+      darkest: '#20A6A6',
+      dark: '#20BFBF',
+      regular: '#20D6D6',
+      light: '#20F2F2',
+      lightest: '#20FFFF',
+    },
   },
   bubble: {
     base: {
@@ -20,10 +27,7 @@ export const theme1: HaloTheme = {
         fontWeight: '300',
         fontSize: 10,
       },
-      container: {
-        padding: 8,
-        borderRadius: 8,
-      },
+      container: {},
     },
     left: {
       container: {
@@ -43,5 +47,11 @@ export const theme1: HaloTheme = {
       text: {},
       time: {},
     },
+  },
+  badge: {
+    container: {
+      backgroundColor: '#20D6D6',
+    },
+    text: {},
   },
 }

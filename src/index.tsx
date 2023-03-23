@@ -1,5 +1,8 @@
-export { HaloProvider, useHaloTheme } from './core/provider'
+export { HaloTheme } from './core/halo.types'
+export { HaloProvider, useHaloTheme } from './core/halo-provider'
 
 // COMPONENTS
 
-export { HBubble } from './components/bubble'
+export { HBadge } from './components/badge/h-badge'
+export { HBubble } from './components/bubble/h-bubble'
+export { HMessageList } from './components/message-list/h-message-list'

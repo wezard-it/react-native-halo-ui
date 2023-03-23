@@ -1,6 +1,6 @@
-import { HBubble } from '@wezard/react-native-halo-ui'
+import { HMessageList } from '@wezard/react-native-halo-ui'
 import * as React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import type { Types } from '@wezard/halo-core'
 import { useMockedChat } from '../providers/MockedChat'
 
@@ -27,10 +27,9 @@ export const ChatCustomScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <HBubble message={messages[0]!} chatUserId={chatUser.id} creator={users[0]!} renderBubble={renderBubble} />
-        <HBubble message={messages[1]!} chatUserId={chatUser.id} creator={users[1]!} renderBubble={renderBubble} />
-      </ScrollView>
+      <View style={styles.container}>
+        <HMessageList messages={messages} chatUserId={chatUser.id} users={users} renderBubble={renderBubble} />
+      </View>
     </View>
   )
 }
