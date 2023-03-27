@@ -18,7 +18,7 @@ interface HChatInputProps extends TextInputProps {
 }
 
 export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput, HChatInputProps>(
-  ({ onSend, onAttachPress, attachOptions, onAttachOptionPress, enableRecording = true, ...props }, ref) => {
+  ({ onSend, onAttachPress, attachOptions, onAttachOptionPress, enableRecording, ...props }, ref) => {
     const theme = useHaloTheme()
     const [messageText, setMessageText] = React.useState<string>()
     const [isRecording, setIsRecording] = React.useState<boolean>(false)
@@ -70,6 +70,15 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
       const height = interpolate(dragMicButtonAnimatedValue.value, [0, 100], [65, 42])
       return {
         height,
+      }
+    })
+
+    const rightSectionAnimatedStyle = useAnimatedStyle(() => {
+      const width = interpolate(showSendButtonAnimatedValue.value, [0, 1], [0, 40])
+      const marginLeft = interpolate(showRecordingViewAnimatedValue.value, [0, 1], [0, 8])
+      return {
+        width: enableRecording ? 40 : width,
+        marginLeft: enableRecording ? 8 : marginLeft,
       }
     })
 
@@ -169,8 +178,8 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
     )
 
     return (
-      <View style={[styles.container, theme.input.container]}>
-        <View style={styles.leftSection}>
+      <Animated.View style={[styles.container, theme.input.container]}>
+        <Animated.View style={styles.leftSection}>
           <Animated.View style={[styles.textInputView, messageInputViewAnimatedStyle]}>
             <HIconButton iconName={'attach'} onPress={_onAttach} style={styles.leftButton} />
             <View style={[styles.back, theme.input.back]}>
@@ -189,10 +198,10 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
             <HIconButton iconName={'delete'} onPress={_onDeleteRecording} style={styles.leftButton} />
             <Text style={styles.recordingTime}>01:00</Text>
           </Animated.View>
-        </View>
+        </Animated.View>
 
-        <View style={styles.rightSection}>
-          <Animated.View style={[styles.rightButtonWrapper, sendButtonWrapperStyle]}>
+        <Animated.View style={[styles.rightSection, rightSectionAnimatedStyle]}>
+          <Animated.View style={[styles.sendButton, sendButtonWrapperStyle]}>
             <HIconButton
               iconName={'send'}
               onPress={_onSend}
@@ -226,8 +235,8 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
               ) : null}
             </Animated.View>
           ) : null}
-        </View>
-      </View>
+        </Animated.View>
+      </Animated.View>
     )
   },
 )
@@ -253,6 +262,11 @@ const styles = StyleSheet.create({
   },
   rightButtonWrapper: {
     position: 'absolute',
+  },
+  sendButton: {
+    position: 'absolute',
+    marginLeft: 8,
+    width: 40,
   },
   leftSection: {
     flex: 1,
