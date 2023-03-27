@@ -6,11 +6,22 @@ import { HIcon } from '../icon/h-icon'
 interface HIconButtonProps {
   iconName: IconName
   onPress: () => void
+  onPressIn?: () => void
+  onPressOut?: () => void
+  onLongPress?: () => void
   disabled?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-export const HIconButton: React.FC<HIconButtonProps> = ({ iconName, onPress, style, disabled = false }) => {
+export const HIconButton: React.FC<HIconButtonProps> = ({
+  iconName,
+  style,
+  disabled = false,
+  onPress,
+  onPressIn,
+  onPressOut,
+  onLongPress,
+}) => {
   const theme = useHaloTheme()
   const [pressed, setPressed] = React.useState<boolean>(false)
 
@@ -19,11 +30,22 @@ export const HIconButton: React.FC<HIconButtonProps> = ({ iconName, onPress, sty
     return pressed ? theme.colors.primary.light : theme.colors.primary.regular
   }, [disabled, pressed, theme.colors.primary.light, theme.colors.primary.regular, theme.colors.surfaces.dark])
 
+  const _onPressIn = React.useCallback(() => {
+    setPressed(true)
+    onPressIn && onPressIn()
+  }, [onPressIn])
+
+  const _onPressOut = React.useCallback(() => {
+    setPressed(true)
+    onPressOut && onPressOut()
+  }, [onPressOut])
+
   return (
     <Pressable
       onPress={onPress}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
+      onPressIn={_onPressIn}
+      onPressOut={_onPressOut}
+      onLongPress={onLongPress}
       disabled={disabled}
       style={[
         styles.btn,

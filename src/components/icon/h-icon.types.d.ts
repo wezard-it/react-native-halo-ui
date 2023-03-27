@@ -1,4 +1,4 @@
-type IconName = 'attach' | 'send'
+type IconName = 'attach' | 'delete' | 'micOff' | 'micOn' | 'send'
 
 interface IconProps {
   fill?: string

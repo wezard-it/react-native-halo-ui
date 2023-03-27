@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { IconAttach, IconSend } from './icons'
+import { IconAttach, IconDelete, IconMicOff, IconMicOn, IconSend } from './icons'
 
 const rendered =
   (Component: any) =>
@@ -9,6 +9,9 @@ const rendered =
 
 const iconMaps = {
   attach: { render: rendered(IconAttach) },
+  delete: { render: rendered(IconDelete) },
+  micOff: { render: rendered(IconMicOff) },
+  micOn: { render: rendered(IconMicOn) },
   send: { render: rendered(IconSend) },
 }
 

@@ -3,39 +3,39 @@ import type { HaloTheme } from '@wezard/react-native-halo-ui'
 export const theme1: Partial<HaloTheme> = {
   colors: {
     primary: {
-      darkest: '#098227',
-      dark: '#208B3A',
-      regular: '#92E6A7',
-      light: '#B7EFC5',
-      lightest: '#76B885',
+      darkest: '#8E3C9E',
+      dark: '#6B2BAA',
+      regular: '#532D8C',
+      light: '#5E4CA8',
+      lightest: '#766EC6',
     },
     surfaces: {
-      darkest: '#20A6A6',
-      dark: '#20BFBF',
-      regular: '#20D6D6',
-      light: '#20F2F2',
-      lightest: '#20FFFF',
+      darkest: '#262626',
+      dark: '#2F2F2F',
+      regular: '#333333',
+      light: '#4A4A4A',
+      lightest: '#6D6D6D',
     },
     text: {
-      darkest: '#292929',
-      dark: '#404040',
-      regular: '#666666',
+      darkest: '#FFFFFF',
+      dark: '#EDEDED',
+      regular: '#CCCCCC',
       light: '#999999',
-      lightest: '#CCCCCC',
+      lightest: '#666666',
     },
   },
   bubble: {
     base: {
       text: {
-        color: '#1E1A26',
+        color: '#CCCCCC',
       },
       label: {
-        color: '#1E1A26',
+        color: '#EDEDED',
         fontWeight: '700',
         fontSize: 14,
       },
       time: {
-        color: '#1E1A26',
+        color: '#EDEDED',
         fontWeight: '300',
         fontSize: 10,
       },
@@ -43,7 +43,7 @@ export const theme1: Partial<HaloTheme> = {
     },
     left: {
       container: {
-        backgroundColor: '#B7EFC5',
+        backgroundColor: '#766EC6',
         borderTopLeftRadius: 0,
       },
       label: {},
@@ -52,7 +52,7 @@ export const theme1: Partial<HaloTheme> = {
     },
     right: {
       container: {
-        backgroundColor: '#2DC653',
+        backgroundColor: '#6B2BAA',
         borderTopRightRadius: 0,
       },
       label: {},
@@ -62,13 +62,15 @@ export const theme1: Partial<HaloTheme> = {
   },
   badge: {
     container: {
-      backgroundColor: '#20D6D6',
+      backgroundColor: '#333333',
     },
-    text: {},
+    text: {
+      color: '#CCCCCC',
+    },
   },
   input: {
     container: {
-      backgroundColor: '#208B3A',
+      backgroundColor: '#6B2BAA',
       paddingTop: 12,
       padding: 24,
     },

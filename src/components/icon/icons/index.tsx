@@ -1,2 +1,5 @@
 export { default as IconAttach } from './attach'
+export { default as IconDelete } from './delete'
+export { default as IconMicOff } from './mic-off'
+export { default as IconMicOn } from './mic-on'
 export { default as IconSend } from './send'
