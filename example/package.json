@@ -28,5 +28,8 @@
     "@babel/runtime": "^7.20.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "metro-react-native-babel-preset": "0.73.8"
+  },
+  "resolutions": {
+    "json5": "^2.2.2"
   }
 }
