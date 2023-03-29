@@ -8,9 +8,10 @@ import { HIconButton } from '../button-icon/h-icon-button'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { Text } from 'react-native'
 import Lottie from 'lottie-react-native'
+import { useRecorderPlayer } from '../../hooks/use-recorder-player/use-recorder-player'
 
 interface HChatInputProps extends TextInputProps {
-  onSend: (message: string) => void
+  onSend: (message?: string, file?: string) => void
   onAttachPress?: () => void
   attachOptions?: string[]
   onAttachOptionPress?: (index: number) => void
@@ -18,12 +19,15 @@ interface HChatInputProps extends TextInputProps {
 }
 
 export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput, HChatInputProps>(
-  ({ onSend, onAttachPress, attachOptions, onAttachOptionPress, enableRecording, ...props }, ref) => {
+  ({ onSend, onAttachPress, attachOptions, onAttachOptionPress, enableRecording = true, ...props }, ref) => {
     const theme = useHaloTheme()
     const [messageText, setMessageText] = React.useState<string>()
     const [isRecording, setIsRecording] = React.useState<boolean>(false)
+    const [showRecButton, setShowRecButton] = React.useState<boolean>(true)
     const [isDraggingMic, setIsDraggingMic] = React.useState<boolean>(false)
     const [lockAnimationProgress, setLockAnimationProgress] = React.useState<number>(0.5)
+
+    const recorderPlayer = useRecorderPlayer()
 
     const showSendButtonAnimatedValue = useSharedValue(0)
     const dragMicButtonAnimatedValue = useSharedValue(0)
@@ -41,7 +45,7 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
 
     const sendButtonWrapperStyle = useAnimatedStyle(() => {
       const opacity = interpolate(
-        showSendButtonAnimatedValue.value || showRecordingViewAnimatedValue.value,
+        showSendButtonAnimatedValue.value || (isDraggingMic ? showRecordingViewAnimatedValue.value : 0),
         [0.6, 1],
         [0, 1],
       )
@@ -75,7 +79,7 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
 
     const rightSectionAnimatedStyle = useAnimatedStyle(() => {
       const width = interpolate(showSendButtonAnimatedValue.value, [0, 1], [0, 40])
-      const marginLeft = interpolate(showRecordingViewAnimatedValue.value, [0, 1], [0, 8])
+      const marginLeft = interpolate(showSendButtonAnimatedValue.value, [0, 1], [0, 8])
       return {
         width: enableRecording ? 40 : width,
         marginLeft: enableRecording ? 8 : marginLeft,
@@ -111,31 +115,38 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
       }
     }, [attachOptions, onAttachOptionPress, onAttachPress])
 
+    const _stopRecordingAndSendMessage = React.useCallback(async () => {
+      const file = await recorderPlayer.stopRecording()
+      onSend(undefined, file)
+    }, [onSend, recorderPlayer])
+
     const _onSend = React.useCallback(() => {
       if (isRecording) {
         setIsRecording(false)
-        // todo: handle send
+        _stopRecordingAndSendMessage()
       } else {
         onSend(messageText!.trim())
         setMessageText(undefined)
       }
-    }, [isRecording, messageText, onSend])
+    }, [_stopRecordingAndSendMessage, isRecording, messageText, onSend])
 
     const _onMicPress = React.useCallback(() => {}, [])
 
     const _onMicLongPress = React.useCallback(() => {
       setIsRecording(true)
-    }, [])
+      recorderPlayer.startRecording()
+    }, [recorderPlayer])
 
     const _onMicPressOut = React.useCallback(() => {
       if (isRecording && !isDraggingMic) {
         setIsRecording(false)
-        // todo: handle send
+        _stopRecordingAndSendMessage()
       }
-    }, [isDraggingMic, isRecording])
+    }, [_stopRecordingAndSendMessage, isDraggingMic, isRecording])
 
     const _onDeleteRecording = React.useCallback(() => {
       setIsRecording(false)
+      setShowRecButton(true)
     }, [])
     const resetMicButtonPosition = React.useCallback(() => {
       'worklet'
@@ -152,6 +163,7 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
             runOnJS(setLockAnimationProgress)(0.5)
             runOnJS(setIsRecording)(true)
             runOnJS(setIsDraggingMic)(false)
+            runOnJS(setShowRecButton)(false)
           } else {
             dragMicButtonAnimatedValue.value = y
             runOnJS(setLockAnimationProgress)(0.5 + y / 200)
@@ -196,7 +208,7 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
           </Animated.View>
           <Animated.View style={[styles.recordingView, recordingViewAnimatedStyle]}>
             <HIconButton iconName={'delete'} onPress={_onDeleteRecording} style={styles.leftButton} />
-            <Text style={styles.recordingTime}>01:00</Text>
+            <Text style={styles.recordingTime}>{recorderPlayer.currentTime ?? ''}</Text>
           </Animated.View>
         </Animated.View>
 
@@ -208,7 +220,7 @@ export const HChatInput: React.FC<HChatInputProps> = React.forwardRef<TextInput,
               disabled={(messageText === undefined || messageText.trim().length === 0) && !isRecording}
             />
           </Animated.View>
-          {!isRecording && enableRecording ? (
+          {showRecButton && enableRecording ? (
             <Animated.View style={[styles.rightButtonWrapper, micButtonWrapperStyle]}>
               <GestureDetector gesture={gesture}>
                 <HIconButton

@@ -10,6 +10,9 @@ interface HIconButtonProps {
   onPressOut?: () => void
   onLongPress?: () => void
   disabled?: boolean
+  backColor?: string
+  backPressedColor?: string
+  iconColor?: string
   style?: StyleProp<ViewStyle>
 }
 
@@ -17,6 +20,9 @@ export const HIconButton: React.FC<HIconButtonProps> = ({
   iconName,
   style,
   disabled = false,
+  backColor,
+  backPressedColor,
+  iconColor,
   onPress,
   onPressIn,
   onPressOut,
@@ -27,8 +33,17 @@ export const HIconButton: React.FC<HIconButtonProps> = ({
 
   const backgroundColor = React.useMemo(() => {
     if (disabled) return theme.colors.surfaces.dark
-    return pressed ? theme.colors.primary.light : theme.colors.primary.regular
-  }, [disabled, pressed, theme.colors.primary.light, theme.colors.primary.regular, theme.colors.surfaces.dark])
+    if (pressed) return backPressedColor ?? theme.colors.primary.light
+    return backColor ?? theme.colors.primary.regular
+  }, [
+    backColor,
+    backPressedColor,
+    disabled,
+    pressed,
+    theme.colors.primary.light,
+    theme.colors.primary.regular,
+    theme.colors.surfaces.dark,
+  ])
 
   const _onPressIn = React.useCallback(() => {
     setPressed(true)
@@ -36,7 +51,7 @@ export const HIconButton: React.FC<HIconButtonProps> = ({
   }, [onPressIn])
 
   const _onPressOut = React.useCallback(() => {
-    setPressed(true)
+    setPressed(false)
     onPressOut && onPressOut()
   }, [onPressOut])
 
@@ -54,7 +69,7 @@ export const HIconButton: React.FC<HIconButtonProps> = ({
         },
         style,
       ]}>
-      <HIcon name={iconName} fill={theme.colors.text.dark} />
+      <HIcon name={iconName} fill={iconColor ?? theme.colors.text.dark} />
     </Pressable>
   )
 }

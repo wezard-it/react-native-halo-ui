@@ -1,15 +1,9 @@
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import type { Types } from '@wezard/halo-core'
 import { useHaloTheme } from '../../core/halo-provider'
-import moment from 'moment'
-
-type HBubbleProps = {
-  chatUserId: string
-  creator: Types.UserDetails
-  message: Types.MessageType.Any
-  renderBubble?: (message: Types.MessageType.Any, chatUserId: string, creator: Types.UserDetails) => React.ReactNode
-}
+import type { HBubbleProps } from './h-bubble.types'
+import { HBubbleText } from './h-bubble-text'
+import { HBubbleAudio } from './h-bubble-audio'
 
 export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator, renderBubble }) => {
   const theme = useHaloTheme()
@@ -69,27 +63,36 @@ export const HBubble: React.FC<HBubbleProps> = ({ message, chatUserId, creator, 
   }, [creator])
 
   const _renderBubble = React.useCallback(() => {
-    return (
-      <View style={bubbleStyle}>
-        {!creatorIsChatUser ? (
-          <Text style={labelTextStyle}>
-            {creator?.firstName} {creator?.lastName}
-          </Text>
-        ) : null}
-        <Text style={messageTextStyle}>{message!.text}</Text>
-        <Text style={timeTextStyle}>{moment(message!.createdAt).format('HH:mm')}</Text>
-      </View>
-    )
-  }, [
-    bubbleStyle,
-    creator?.firstName,
-    creator?.lastName,
-    creatorIsChatUser,
-    labelTextStyle,
-    message,
-    messageTextStyle,
-    timeTextStyle,
-  ])
+    switch (message!.contentType) {
+      case 'TEXT':
+        return (
+          <HBubbleText
+            bubbleStyle={bubbleStyle}
+            labelTextStyle={labelTextStyle}
+            messageTextStyle={messageTextStyle}
+            timeTextStyle={timeTextStyle}
+            creatorIsChatUser={creatorIsChatUser}
+            message={message}
+            chatUserId={chatUserId}
+            creator={creator}
+          />
+        )
+      case 'AUDIO':
+        return (
+          <HBubbleAudio
+            bubbleStyle={bubbleStyle}
+            labelTextStyle={labelTextStyle}
+            timeTextStyle={timeTextStyle}
+            creatorIsChatUser={creatorIsChatUser}
+            message={message}
+            chatUserId={chatUserId}
+            creator={creator}
+          />
+        )
+      default:
+        return null
+    }
+  }, [bubbleStyle, chatUserId, creator, creatorIsChatUser, labelTextStyle, message, messageTextStyle, timeTextStyle])
 
   return (
     <View style={[styles.wrapper, creatorIsChatUser ? styles.alignRight : styles.alignLeft]}>

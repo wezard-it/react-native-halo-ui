@@ -28,17 +28,17 @@ export const useMockedChat = (): {
   chatUser: Types.UserDetails
   messages: Types.MessageType.Any[]
   users: Types.UserDetails[]
-  sendMessage: (text: string) => void
+  sendMessage: (text?: string, file?: string) => void
 } => {
   const { chatUser, users, messages, setMessages } = React.useContext(MockedChatContext)
 
-  const sendMessage = (text: string) => {
+  const sendMessage = (text?: string, file?: string) => {
     const now = new Date().toISOString()
-    setMessages((curr) => [
-      ...curr,
-      {
-        id: `message${curr.length + 1}`,
-        contentType: 'TEXT',
+
+    if (file !== undefined && (file.match(/.m4a$/) || file.match(/.mp4$/))) {
+      const newMessage: Types.MessageType.File = {
+        id: `message${messages.length + 1}`,
+        contentType: 'AUDIO',
         createdAt: now,
         updatedAt: now,
         createdBy: chatUser.id,
@@ -47,9 +47,32 @@ export const useMockedChat = (): {
         metadata: null,
         readBy: [],
         room: 'room1',
-        text: text,
-      },
-    ])
+        text: null,
+        file: {
+          name: `audio${messages.length + 1}`,
+          mimeType: 'audio/m4a',
+          uri: file,
+        },
+      }
+      setMessages((curr) => [...curr, newMessage])
+    } else if (text !== undefined) {
+      setMessages((curr) => [
+        ...curr,
+        {
+          id: `message${curr.length + 1}`,
+          contentType: 'TEXT',
+          createdAt: now,
+          updatedAt: now,
+          createdBy: chatUser.id,
+          deleted: false,
+          delivered: true,
+          metadata: null,
+          readBy: [],
+          room: 'room1',
+          text: text,
+        },
+      ])
+    }
   }
   return {
     chatUser,
